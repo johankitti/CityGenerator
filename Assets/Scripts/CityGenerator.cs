@@ -21,7 +21,25 @@ public class CityGenerator : MonoBehaviour {
 				float yPos = y * buildingSize;
 				float height = Mathf.PerlinNoise (xPos / 100, yPos / 100) * 120;
 				Vector3 instPos = new Vector3 (xPos, 0, yPos);	
-				GameObject instBuilding = Instantiate (Buildings[Random.Range(0, Buildings.Length)], Vector3.zero + instPos, Quaternion.identity) as GameObject;
+				//Debug.Log (height);
+
+				GameObject toInst;
+
+				if (height < 20) {
+					toInst = Buildings [0];
+				} else if (height < 40) {
+					toInst = Buildings [1];
+				} else if (height < 60) {
+					toInst = Buildings [2];
+				} else if (height < 70) {
+					toInst = Buildings [3];
+				} else if (height < 80) {
+					toInst = Buildings [4];
+				} else {
+					toInst = Buildings [5];
+				}
+				// Buildings[Random.Range(0, Buildings.Length)]
+				GameObject instBuilding = Instantiate (toInst, Vector3.zero + instPos, Quaternion.identity) as GameObject;
 			}
 		}
 	}
