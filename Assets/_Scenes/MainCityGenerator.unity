@@ -94,7 +94,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
       propertyPath: Buildings.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 449850, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
       propertyPath: m_LocalPosition.x
@@ -180,6 +180,14 @@ Prefab:
       propertyPath: Buildings.Array.data[8]
       value: 
       objectReference: {fileID: 142328, guid: f21bdc1c7a7b88f4fb3652337ed1015d, type: 2}
+    - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
+      propertyPath: Buildings.Array.data[9]
+      value: 
+      objectReference: {fileID: 151500, guid: c212a1662f2dd294682e3e3a8034ef47, type: 2}
+    - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
+      propertyPath: Buildings.Array.data[10]
+      value: 
+      objectReference: {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
   m_IsPrefabParent: 0

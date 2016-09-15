@@ -13,6 +13,10 @@ public class CityGenerator : MonoBehaviour {
 	void Start () {
 		city = new int[citySize, citySize];
 		Generate ();
+
+        foreach(GameObject obj in Buildings) {
+            Debug.Log(obj.GetComponentInChildren<MeshFilter>().mesh.bounds.size);
+        }
 	}
 
 	void Generate() {
