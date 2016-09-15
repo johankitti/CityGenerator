@@ -24,6 +24,7 @@ public class CityGenerator : MonoBehaviour {
 				Vector3 instPos = new Vector3 (xPos, 0, yPos);	
 				//Debug.Log (height);
 
+                /*
 				GameObject toInst;
 
 				if (height < 20) {
@@ -39,10 +40,10 @@ public class CityGenerator : MonoBehaviour {
 				} else {
 					toInst = Buildings [7];
 				}
+                */
 
                 Quaternion instRot = Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
-				// Buildings[Random.Range(0, Buildings.Length)]
-				GameObject instBuilding = Instantiate (toInst, Vector3.zero + instPos, instRot) as GameObject;
+				GameObject instBuilding = Instantiate (Buildings[Random.Range(0, Buildings.Length)], Vector3.zero + instPos, instRot) as GameObject;
 			}
 		}
 	}
