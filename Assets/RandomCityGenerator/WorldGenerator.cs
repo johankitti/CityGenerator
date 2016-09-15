@@ -36,6 +36,7 @@ public class WorldGenerator : MonoBehaviour {
 		foreach(Transform child in transform) {
 			Destroy(child.gameObject);
 		}
+		SliderFill.fillAmount = 0.0f;
 		BuildingIndex = 0;
 		ShowUI (true);
 		Generating = true;
