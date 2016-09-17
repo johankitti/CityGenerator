@@ -11,8 +11,7 @@ public class CityGenerator : MonoBehaviour {
 	int[,] city;
 
 	void Start () {
-		city = new int[citySize, citySize];
-		Generate ();
+        Generate ();
 	}
 
 	void Generate() {
