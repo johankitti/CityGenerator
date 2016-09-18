@@ -4,7 +4,14 @@ using System.Collections;
 public class MoveCamera : MonoBehaviour {
 
     float Speed = 80;
-	// Update is called once per frame
+
+    Transform TouchGround;
+
+    void Start() {
+        TouchGround = GetComponentInChildren<Transform>();
+        Debug.Log(TouchGround.name);
+    }
+
 	void Update () {
         Vector3 moveVector = Vector3.zero;
                 

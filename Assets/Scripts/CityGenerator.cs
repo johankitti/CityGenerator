@@ -43,6 +43,7 @@ public class CityGenerator : MonoBehaviour {
 
                 Quaternion instRot = Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
 				GameObject instBuilding = Instantiate (Buildings[Random.Range(0, Buildings.Length)], Vector3.zero + instPos, instRot) as GameObject;
+                instBuilding.name = "Building[" + x + "," + y + "]";
 			}
 		}
 	}
