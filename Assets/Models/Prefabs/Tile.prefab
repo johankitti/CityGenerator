@@ -8,8 +8,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426396}
+  - 114: {fileID: 11405832}
   m_Layer: 0
-  m_Name: basicblock
+  m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,13 +91,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174870}
   m_Mesh: {fileID: 4300000, guid: 35f3a112206dca64c8642be597ca2c20, type: 3}
+--- !u!114 &11405832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5013863a22568bc46b1a7cc63d55d7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BusinessBuildings:
+  - {fileID: 169984, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
+  - {fileID: 183590, guid: 98f2416b50aa34e1387de9214ea357d6, type: 2}
+  - {fileID: 128026, guid: 802173152a6c71443ac8682f1ba0735c, type: 2}
+  - {fileID: 143252, guid: c93363301ca0dbe4a98f007fc08c5900, type: 2}
+  CommercialBuildings: []
+  ResidentialBuildings: []
+  IndustrialBuildings: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: BusinessBuildings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: BusinessBuildings.Array.data[0]
+      value: 
+      objectReference: {fileID: 169984, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
+    - target: {fileID: 0}
+      propertyPath: BusinessBuildings.Array.data[1]
+      value: 
+      objectReference: {fileID: 183590, guid: 98f2416b50aa34e1387de9214ea357d6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: BusinessBuildings.Array.data[2]
+      value: 
+      objectReference: {fileID: 128026, guid: 802173152a6c71443ac8682f1ba0735c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116262}
