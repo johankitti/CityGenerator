@@ -49,16 +49,16 @@ public class Tile : MonoBehaviour {
 
     Quaternion GetBuildingRotation(CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
         if (up == CityGenerator.District.Road) {
-            return Quaternion.Euler(new Vector3(30, 90 * 3, 0));
+            return Quaternion.Euler(new Vector3(0, 90 * 3, 0));
         }
         else if (right == CityGenerator.District.Road) {
-            return Quaternion.Euler(new Vector3(-30, 90 * 2, 0));
+            return Quaternion.Euler(new Vector3(0, 90 * 2, 0));
         }
         else if (down == CityGenerator.District.Road) {
-            return Quaternion.Euler(new Vector3(0, 90 * 1, 30));
+            return Quaternion.Euler(new Vector3(0, 90 * 1, 0));
         }
         else if (left == CityGenerator.District.Road) {
-            return Quaternion.Euler(new Vector3(0, 90 * 4, -30));
+            return Quaternion.Euler(new Vector3(0, 90 * 4, 0));
         }
         else {
             return Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
