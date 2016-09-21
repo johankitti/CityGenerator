@@ -39,6 +39,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadc282977b0b44828faa89a9a4511b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraView2DPos: {fileID: 0}
+  TilePrefab: {fileID: 0}
+  BaseConcrete: {fileID: 197154, guid: b08d58bd27f372348993abf28155042f, type: 2}
+  Buildings:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 128026, guid: 802173152a6c71443ac8682f1ba0735c, type: 2}
+  - {fileID: 143252, guid: c93363301ca0dbe4a98f007fc08c5900, type: 2}
+  - {fileID: 142328, guid: f21bdc1c7a7b88f4fb3652337ed1015d, type: 2}
+  - {fileID: 151500, guid: c212a1662f2dd294682e3e3a8034ef47, type: 2}
+  - {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
+  - {fileID: 163086, guid: 52b091183a6f4004687852e0ef754080, type: 2}
+  - {fileID: 120568, guid: 000ee92c21a997640957aff13713543f, type: 2}
+  - {fileID: 136822, guid: 257b1e28f8d3be648acdc4249708e96b, type: 2}
+  NoiseDetailSlider: {fileID: 0}
+  RandomSeedSlider: {fileID: 0}
+  BusinessCommercialSlider: {fileID: 0}
+  ResidentialSlider: {fileID: 0}
+  IndustrialSlider: {fileID: 0}
+  SpreadCommercialSlider: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

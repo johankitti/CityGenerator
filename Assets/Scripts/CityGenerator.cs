@@ -21,7 +21,7 @@ public class CityGenerator : MonoBehaviour {
     public Slider IndustrialSlider;
     public Slider SpreadCommercialSlider;
 
-    const int TileSize = 60;
+    const int TileSize = 30;
     const int BasicBlockHeight = 10;
     const int BaseConcreteHeight = 3;
     const int TilePadding = 5;

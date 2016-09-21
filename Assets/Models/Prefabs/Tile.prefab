@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.942585, y: 40.8052254, z: 90.8903656}
+  m_LocalPosition: {x: 561.41333, y: 322.580078, z: 844.332153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 465894}
@@ -102,13 +102,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5013863a22568bc46b1a7cc63d55d7aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TileMesh: {fileID: 174870}
   BusinessBuildings:
-  - {fileID: 169984, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
-  - {fileID: 183590, guid: 98f2416b50aa34e1387de9214ea357d6, type: 2}
+  - {fileID: 189876, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
+  - {fileID: 177000, guid: 49af819e21c1bac48b2b9864d2c9c84a, type: 2}
   - {fileID: 128026, guid: 802173152a6c71443ac8682f1ba0735c, type: 2}
   - {fileID: 143252, guid: c93363301ca0dbe4a98f007fc08c5900, type: 2}
-  CommercialBuildings: []
-  ResidentialBuildings: []
+  CommercialBuildings:
+  - {fileID: 163086, guid: 52b091183a6f4004687852e0ef754080, type: 2}
+  - {fileID: 120568, guid: 000ee92c21a997640957aff13713543f, type: 2}
+  ResidentialBuildings:
+  - {fileID: 142328, guid: f21bdc1c7a7b88f4fb3652337ed1015d, type: 2}
+  - {fileID: 151500, guid: c212a1662f2dd294682e3e3a8034ef47, type: 2}
+  - {fileID: 136822, guid: 257b1e28f8d3be648acdc4249708e96b, type: 2}
+  - {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
   IndustrialBuildings: []
 --- !u!1001 &100100000
 Prefab:
@@ -122,17 +129,53 @@ Prefab:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: BusinessBuildings.Array.data[0]
       value: 
-      objectReference: {fileID: 169984, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
+      objectReference: {fileID: 189876, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
     - target: {fileID: 0}
       propertyPath: BusinessBuildings.Array.data[1]
       value: 
-      objectReference: {fileID: 183590, guid: 98f2416b50aa34e1387de9214ea357d6, type: 2}
+      objectReference: {fileID: 177000, guid: 49af819e21c1bac48b2b9864d2c9c84a, type: 2}
     - target: {fileID: 0}
       propertyPath: BusinessBuildings.Array.data[2]
       value: 
       objectReference: {fileID: 128026, guid: 802173152a6c71443ac8682f1ba0735c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.data[0]
+      value: 
+      objectReference: {fileID: 163086, guid: 52b091183a6f4004687852e0ef754080, type: 2}
+    - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.data[1]
+      value: 
+      objectReference: {fileID: 120568, guid: 000ee92c21a997640957aff13713543f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.data[0]
+      value: 
+      objectReference: {fileID: 142328, guid: f21bdc1c7a7b88f4fb3652337ed1015d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.data[1]
+      value: 
+      objectReference: {fileID: 151500, guid: c212a1662f2dd294682e3e3a8034ef47, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.data[2]
+      value: 
+      objectReference: {fileID: 136822, guid: 257b1e28f8d3be648acdc4249708e96b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.data[3]
+      value: 
+      objectReference: {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116262}
