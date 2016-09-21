@@ -17,13 +17,12 @@ public class Tile : MonoBehaviour {
 
     public void Build(CityGenerator.District district, float height, CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
         Destroy(TileMesh);
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
-
-        GameObject prefab;
-
         if (district == CityGenerator.District.Road) {
             InstantiateRoad(up, down, left, right);
         } else {
+            Quaternion rotation = GetBuildingRotation(up, down, left, right);
+            GameObject prefab;
+
             switch (district) {
                 case (CityGenerator.District.Business):
                     prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
@@ -45,6 +44,24 @@ public class Tile : MonoBehaviour {
             }
             GameObject building = Instantiate(prefab, transform.localPosition, rotation) as GameObject;
             building.transform.SetParent(transform);
+        }
+    }
+
+    Quaternion GetBuildingRotation(CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
+        if (up == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(30, 90 * 3, 0));
+        }
+        else if (right == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(-30, 90 * 2, 0));
+        }
+        else if (down == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 1, 30));
+        }
+        else if (left == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 4, -30));
+        }
+        else {
+            return Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
         }
     }
 
