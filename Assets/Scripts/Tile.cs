@@ -5,6 +5,7 @@ public class Tile : MonoBehaviour {
 
     public GameObject TileMesh;
 
+    public GameObject Road;
     public GameObject[] BusinessBuildings;
     public GameObject[] CommercialBuildings;
     public GameObject[] ResidentialBuildings;
@@ -18,19 +19,22 @@ public class Tile : MonoBehaviour {
 
         switch(district) {
             case (CityGenerator.District.Business):
-                prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length - 1)];
+                prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
                 break;
             case (CityGenerator.District.Commercial):
-                prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length - 1)];
+                prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length)];
                 break;
             case (CityGenerator.District.Residential):
-                prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
+                prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length)];
                 break;
-                /*
-            case (CityGenerator.District.Industrial):
-                prefab = IndustrialBuildings[Random.Range(0, IndustrialBuildings.Length - 1)];
+            /*
+        case (CityGenerator.District.Industrial):
+            prefab = IndustrialBuildings[Random.Range(0, IndustrialBuildings.Length - 1)];
+            break;
+            */
+            case (CityGenerator.District.Road):
+                prefab = Road;
                 break;
-                */
             default:
                 prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
                 break;
