@@ -114,7 +114,7 @@ public class CityGenerator : MonoBehaviour {
                 }
             }
         }
-        Debug.Log("ASDASDASDASDASDASD");
+
         GenerateVerticalRoads();
         GenerateHorizontalRoads();
         //Debug.Log(noiseLow + " -> " + noiseHigh);
@@ -125,55 +125,77 @@ public class CityGenerator : MonoBehaviour {
         for (int i = 0; i < nrOfRoads; i++) {
             int roadXPos = Random.Range(0, CitySize);
             int roadYPos = 0;
-
-            do {
-                SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
-                int randomStep = Random.Range(0, 3);
-                switch(randomStep) {
-                    case (0):
-                        roadXPos++;
-                        if (roadXPos > CitySize - 1)
-                            roadXPos = CitySize - 1;
-                        break;
-   
-                    case (1):
-                        roadXPos--;
-                        if (roadXPos < 0)
-                            roadXPos = 0;
-                        break;
-                    default:
-                        roadYPos++;
-                        break;
-                }
-            } while (roadYPos < CitySize);
-        }
-    }
-
-    void GenerateHorizontalRoads() {
-        int nrOfRoads = (int)(HorizontalRoadsSlider.value * (float)CitySize / 2.0f);
-        for (int i = 0; i < nrOfRoads; i++) {
-            int roadXPos = 0;
-            int roadYPos = Random.Range(0, CitySize);
+            int lastStep = -1;
 
             do {
                 SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
                 int randomStep = Random.Range(0, 3);
                 switch (randomStep) {
                     case (0):
+                        if (lastStep != 1) { 
+                            roadXPos++;
+                            lastStep = randomStep;
+                        }
+                        if (roadXPos > CitySize - 1)
+                            roadXPos = CitySize - 1;
+                        break;
+   
+                    case (1):
+                        if (lastStep != 0) {
+                            roadXPos--;
+                            lastStep = randomStep;
+                        }
+                        if (roadXPos < 0)
+                            roadXPos = 0;
+                        break;
+                    default:
                         roadYPos++;
+                        SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
+                        roadYPos++;
+                        lastStep = randomStep;
+                        break;
+                }
+
+            } while (roadYPos < CitySize);
+        }
+    }
+
+    void GenerateHorizontalRoads() {
+        int nrOfRoads = (int)(VerticalRoadsSlider.value * (float)CitySize / 2.0f);
+        for (int i = 0; i < nrOfRoads; i++) {
+            int roadXPos = 0;
+            int roadYPos = Random.Range(0, CitySize);
+            int lastStep = -1;
+
+            do {
+                SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
+                int randomStep = Random.Range(0, 3);
+                switch (randomStep) {
+                    case (0):
+                        if (lastStep != 1) {
+                            roadYPos++;
+                            lastStep = randomStep;
+                        }
                         if (roadYPos > CitySize - 1)
                             roadYPos = CitySize - 1;
                         break;
 
                     case (1):
-                        roadYPos--;
+                        if (lastStep != 0) {
+                            roadYPos--;
+                            lastStep = randomStep;
+                        }
                         if (roadYPos < 0)
                             roadYPos = 0;
                         break;
                     default:
                         roadXPos++;
+                        SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
+                        roadXPos++;
+                        lastStep = randomStep;
                         break;
                 }
+
             } while (roadXPos < CitySize);
         }
     }
@@ -182,7 +204,7 @@ public class CityGenerator : MonoBehaviour {
         float part = 1.0f / (float)(CitySize * CitySize);
         for (int x = 0; x < CitySize; x++) {
             for (int y = 0; y < CitySize; y++) {
-                CityTileMap[x, y].Build(CityDistrictMap[x, y], 0);
+                CityTileMap[x, y].Build(CityDistrictMap[x, y], 0, CityDistrictMap[x, Mathf.Max(y - 1, 0)], CityDistrictMap[x, Mathf.Min(y + 1, CitySize - 1)], CityDistrictMap[Mathf.Max(x - 1, 0), y], CityDistrictMap[Mathf.Min(x + 1, CitySize - 1), y]);
                 SetTileColor(Color.white, x, y);
             }
         }
