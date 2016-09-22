@@ -132,10 +132,14 @@ MonoBehaviour:
   - {fileID: 163086, guid: 52b091183a6f4004687852e0ef754080, type: 2}
   - {fileID: 120568, guid: 000ee92c21a997640957aff13713543f, type: 2}
   - {fileID: 199536, guid: bb4fde111610e4aff840891b3d488605, type: 2}
+  - {fileID: 187016, guid: 676b4ce922fe9094c82290402785929f, type: 2}
+  - {fileID: 185758, guid: 98bb2264cff99a940b5d4c8d56374306, type: 2}
   ResidentialBuildings:
   - {fileID: 142328, guid: f21bdc1c7a7b88f4fb3652337ed1015d, type: 2}
   - {fileID: 151500, guid: c212a1662f2dd294682e3e3a8034ef47, type: 2}
   - {fileID: 136822, guid: 257b1e28f8d3be648acdc4249708e96b, type: 2}
+  - {fileID: 130806, guid: 080d142d6cd52914fbe97df0914f8aa4, type: 2}
+  - {fileID: 181100, guid: 994a80fb03c51114ba53c79c2dfd34f1, type: 2}
   - {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
   IndustrialBuildings: []
 --- !u!1001 &100100000
@@ -167,11 +171,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CommercialBuildings.Array.size
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: ResidentialBuildings.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: BusinessBuildings.Array.data[0]
@@ -212,7 +216,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ResidentialBuildings.Array.data[3]
       value: 
-      objectReference: {fileID: 103412, guid: 7349630754b87454fbdd7c3ca8ac4539, type: 2}
+      objectReference: {fileID: 130806, guid: 080d142d6cd52914fbe97df0914f8aa4, type: 2}
     - target: {fileID: 0}
       propertyPath: Road
       value: 
@@ -293,6 +297,18 @@ Prefab:
       propertyPath: RoadXCrossings.Array.data[2]
       value: 
       objectReference: {fileID: 105718, guid: afadbba54006f6841baa9703145ffae8, type: 2}
+    - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.data[3]
+      value: 
+      objectReference: {fileID: 187016, guid: 676b4ce922fe9094c82290402785929f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ResidentialBuildings.Array.data[4]
+      value: 
+      objectReference: {fileID: 181100, guid: 994a80fb03c51114ba53c79c2dfd34f1, type: 2}
+    - target: {fileID: 0}
+      propertyPath: CommercialBuildings.Array.data[4]
+      value: 
+      objectReference: {fileID: 185758, guid: 98bb2264cff99a940b5d4c8d56374306, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116262}
