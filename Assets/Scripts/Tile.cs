@@ -5,10 +5,10 @@ public class Tile : MonoBehaviour {
 
     public GameObject TileMesh;
 
-    public GameObject Road;
-    public GameObject RoadTurn;
-    public GameObject RoadTCrossing;
-    public GameObject RoadXCrossing;
+    public GameObject[] Roads;
+    public GameObject[] RoadTurns;
+    public GameObject[] RoadTCrossings;
+    public GameObject[] RoadXCrossings;
 
     public GameObject[] BusinessBuildings;
     public GameObject[] CommercialBuildings;
@@ -66,71 +66,62 @@ public class Tile : MonoBehaviour {
     }
 
     void InstantiateRoad(CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
-        GameObject prefab = Road;
+        GameObject prefab = Roads[0];
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 90 * 1, 0));
-        string name = "";
 
         // X-CROSSING
         if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
             rotation = Quaternion.identity;
-            prefab = RoadXCrossing;
+            prefab = RoadXCrossings[Random.Range(0, RoadXCrossings.Length - 1)];
         }
 
         // T-CROSSING
         else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && left == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            prefab = RoadTCrossing;
+            prefab = RoadTCrossings[Random.Range(0, RoadTCrossings.Length - 1)];
         }
         else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && right == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 2, 0));
-            prefab = RoadTCrossing;
+            prefab = RoadTCrossings[Random.Range(0, RoadTCrossings.Length - 1)];
         }
         else if (up == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 3, 0));
-            prefab = RoadTCrossing;
+            prefab = RoadTCrossings[Random.Range(0, RoadTCrossings.Length - 1)];
         }
         else if (down == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 1, 0));
-            prefab = RoadTCrossing;
+            prefab = RoadTCrossings[Random.Range(0, RoadTCrossings.Length - 1)];
         }
 
         // TURN
         else if (up == CityGenerator.District.Road && right == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            prefab = RoadTurn;
-            name = "1";
+            prefab = RoadTurns[Random.Range(0, RoadTurns.Length - 1)];
         }
         else if (up == CityGenerator.District.Road && left == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90, 0));
-            prefab = RoadTurn;
-            name = "2";
+            prefab = RoadTurns[Random.Range(0, RoadTurns.Length - 1)];
         }
         else if (right == CityGenerator.District.Road && down == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 3, 0));
-            prefab = RoadTurn;
-            name = "3";
+            prefab = RoadTurns[Random.Range(0, RoadTurns.Length - 1)];
         }
         else if (down == CityGenerator.District.Road && left == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 6, 0));
-            prefab = RoadTurn;
-            name = "4";
+            prefab = RoadTurns[Random.Range(0, RoadTurns.Length - 1)];
         }
 
         // NORMAL ROAD
         else if (right == CityGenerator.District.Road && left == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 90 * 5, 0));
-            prefab = Road;
-            name = "1";
+            prefab = Roads[Random.Range(0, Roads.Length - 1)];
         }
         else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road) {
             rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            prefab = Road;
-            name = "2";
         }
 
         GameObject building = Instantiate(prefab, transform.localPosition, rotation) as GameObject;
         building.transform.SetParent(transform);
-        building.name = name;
     }
 
     /*

@@ -13,6 +13,8 @@ public class CityGenerator : MonoBehaviour {
     public GameObject BaseConcrete;
 	public GameObject[] Buildings;
 
+    public Agent AgentPrefab;
+
     // UI
     public Slider NoiseDetailSlider;
     public Slider RandomSeedSlider;
@@ -24,8 +26,6 @@ public class CityGenerator : MonoBehaviour {
     public Slider HorizontalRoadsSlider;
 
     const int TileSize = 30;
-    const int BasicBlockHeight = 10;
-    const int BaseConcreteHeight = 3;
     const int TilePadding = 5;
 
     int xPos = -9999;
@@ -34,7 +34,6 @@ public class CityGenerator : MonoBehaviour {
     int CitySize = 100;
 
 	Tile[,] CityTileMap;
-
     District[,] CityDistrictMap;
 
     float NoiseDetailX = 10;
@@ -62,7 +61,7 @@ public class CityGenerator : MonoBehaviour {
                 float instPosX = x * TileSize;
                 float instPosY = y * TileSize;
 
-                Vector3 basicTilePos = new Vector3(instPosX, -BasicBlockHeight, instPosY);
+                Vector3 basicTilePos = new Vector3(instPosX, 0, instPosY);
 
                 CityTileMap[x, y] = Instantiate(TilePrefab, Vector3.zero + basicTilePos, Quaternion.identity) as Tile;
                 CityTileMap[x, y].name = "Tile[" + x + ", " + y + "]";
@@ -208,6 +207,8 @@ public class CityGenerator : MonoBehaviour {
                 SetTileColor(Color.white, x, y);
             }
         }
+
+        SpawnAgents();
     }
 
     void SetDistrict(District district, Color color, int x, int y) {
@@ -218,6 +219,20 @@ public class CityGenerator : MonoBehaviour {
     void SetTileColor(Color color, int x, int y) {
         if (CityTileMap[x, y] != null)
             CityTileMap[x, y].GetComponentInChildren<Renderer>().material.color = color;
+    }
+
+    void SpawnAgents() {
+        int nrOfAgents = 10;
+        for (int i = 0; i < nrOfAgents; i++) {
+            int randomX = Random.Range(0, CitySize);
+            int randomY = Random.Range(0, CitySize);
+
+            // CityTileMap[randomX, randomY].GetPosition(); eller nåt
+            Agent agent = Instantiate(AgentPrefab, new Vector3(randomX * CitySize, 2, randomY * CitySize), Quaternion.identity) as Agent;
+            randomX = Random.Range(0, CitySize);
+            randomY = Random.Range(0, CitySize);
+            agent.Initialize(CityDistrictMap, CitySize, TileSize, randomX, randomY);
+        }
     }
 
     /*

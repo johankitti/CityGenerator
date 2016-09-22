@@ -103,10 +103,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileMesh: {fileID: 174870}
-  Road: {fileID: 172160, guid: 36f56b07b2c71e743bc517b89176d4a3, type: 2}
-  RoadTurn: {fileID: 198576, guid: 258c8611f7b7d614f951f0827a471adf, type: 2}
-  RoadTCrossing: {fileID: 190518, guid: 511b3bc9c7a22e147b18bd351b7a99ce, type: 2}
-  RoadXCrossing: {fileID: 162134, guid: ec605c879bc74e34b86ea8935562e0ef, type: 2}
+  Roads:
+  - {fileID: 183874, guid: 512326117ae33504cbe2117f8880bb4e, type: 2}
+  - {fileID: 143410, guid: c6bb3a58b812d44439053047bb2cc608, type: 2}
+  - {fileID: 108072, guid: ad538c122c6f07d4585c00433fd733ea, type: 2}
+  - {fileID: 172160, guid: 36f56b07b2c71e743bc517b89176d4a3, type: 2}
+  RoadTurns:
+  - {fileID: 138280, guid: ff727fbd616c6e947aabb716a7c2176e, type: 2}
+  - {fileID: 167544, guid: 69a9b83748b3c9547a5eee63870aabb0, type: 2}
+  - {fileID: 110182, guid: 0ea96bc8015fb1f4eaa1bf348c351f4c, type: 2}
+  - {fileID: 198576, guid: 258c8611f7b7d614f951f0827a471adf, type: 2}
+  RoadTCrossings:
+  - {fileID: 195298, guid: 57db06d1e52f9f448aa60fbf90a38741, type: 2}
+  - {fileID: 181234, guid: d78997d7394a8d04f9abe22f8062d05d, type: 2}
+  - {fileID: 186754, guid: 3a9dd3ca2db0da941ab28f5e6076263a, type: 2}
+  - {fileID: 190518, guid: 511b3bc9c7a22e147b18bd351b7a99ce, type: 2}
+  RoadXCrossings:
+  - {fileID: 143232, guid: 59a9f3714db3a6a44adb3138df666d09, type: 2}
+  - {fileID: 131812, guid: bf0fb70aa455a914f8c88712751002be, type: 2}
+  - {fileID: 105718, guid: afadbba54006f6841baa9703145ffae8, type: 2}
+  - {fileID: 162134, guid: ec605c879bc74e34b86ea8935562e0ef, type: 2}
   BusinessBuildings:
   - {fileID: 189876, guid: 90334f7409cc2420abeab98942f78c91, type: 2}
   - {fileID: 177000, guid: 49af819e21c1bac48b2b9864d2c9c84a, type: 2}
@@ -129,6 +145,22 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Roads.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: RoadTurns.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: RoadTCrossings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: RoadXCrossings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: BusinessBuildings.Array.size
       value: 4
@@ -197,6 +229,70 @@ Prefab:
       propertyPath: RoadTCrossing
       value: 
       objectReference: {fileID: 190518, guid: 511b3bc9c7a22e147b18bd351b7a99ce, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Roads.Array.data[0]
+      value: 
+      objectReference: {fileID: 183874, guid: 512326117ae33504cbe2117f8880bb4e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Roads.Array.data[1]
+      value: 
+      objectReference: {fileID: 143410, guid: c6bb3a58b812d44439053047bb2cc608, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Roads.Array.data[2]
+      value: 
+      objectReference: {fileID: 108072, guid: ad538c122c6f07d4585c00433fd733ea, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Roads.Array.data[3]
+      value: 
+      objectReference: {fileID: 172160, guid: 36f56b07b2c71e743bc517b89176d4a3, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTurns.Array.data[3]
+      value: 
+      objectReference: {fileID: 198576, guid: 258c8611f7b7d614f951f0827a471adf, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTurns.Array.data[0]
+      value: 
+      objectReference: {fileID: 138280, guid: ff727fbd616c6e947aabb716a7c2176e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTurns.Array.data[1]
+      value: 
+      objectReference: {fileID: 167544, guid: 69a9b83748b3c9547a5eee63870aabb0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTCrossings.Array.data[3]
+      value: 
+      objectReference: {fileID: 190518, guid: 511b3bc9c7a22e147b18bd351b7a99ce, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTCrossings.Array.data[0]
+      value: 
+      objectReference: {fileID: 195298, guid: 57db06d1e52f9f448aa60fbf90a38741, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTCrossings.Array.data[1]
+      value: 
+      objectReference: {fileID: 181234, guid: d78997d7394a8d04f9abe22f8062d05d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTCrossings.Array.data[2]
+      value: 
+      objectReference: {fileID: 186754, guid: 3a9dd3ca2db0da941ab28f5e6076263a, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadTurns.Array.data[2]
+      value: 
+      objectReference: {fileID: 110182, guid: 0ea96bc8015fb1f4eaa1bf348c351f4c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadXCrossings.Array.data[3]
+      value: 
+      objectReference: {fileID: 162134, guid: ec605c879bc74e34b86ea8935562e0ef, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadXCrossings.Array.data[0]
+      value: 
+      objectReference: {fileID: 143232, guid: 59a9f3714db3a6a44adb3138df666d09, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadXCrossings.Array.data[1]
+      value: 
+      objectReference: {fileID: 131812, guid: bf0fb70aa455a914f8c88712751002be, type: 2}
+    - target: {fileID: 0}
+      propertyPath: RoadXCrossings.Array.data[2]
+      value: 
+      objectReference: {fileID: 105718, guid: afadbba54006f6841baa9703145ffae8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116262}

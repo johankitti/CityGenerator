@@ -1477,6 +1477,11 @@ Prefab:
       propertyPath: VerticalRoadsSlider
       value: 
       objectReference: {fileID: 1481491324}
+    - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
+      propertyPath: AgentPrefab
+      value: 
+      objectReference: {fileID: 11463260, guid: 74fa68e3ab991b746aa4e38c2ad12024,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
   m_IsPrefabParent: 0
