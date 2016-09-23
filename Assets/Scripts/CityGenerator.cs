@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CityGenerator : MonoBehaviour {
 
@@ -25,22 +26,34 @@ public class CityGenerator : MonoBehaviour {
     public Slider VerticalRoadsSlider;
     public Slider HorizontalRoadsSlider;
 
+    // Buildings
+    GameObject[] BusinessBuildings;
+    GameObject[] CommercialBuildings;
+    GameObject[] ResidentialBuildings;
+    GameObject[] IndustrialBuildings;
+
     const int TileSize = 30;
     const int TilePadding = 5;
 
     int xPos = -9999;
     int yPos = -9999;
 
-    int CitySize = 100;
+    int CitySize = 30;
 
 	Tile[,] CityTileMap;
     District[,] CityDistrictMap;
+    float[,] CityHeightMap;
 
     float NoiseDetailX = 10;
     float NoiseDetailY = 10;
 
     void Start() {
         GenerateCity();
+
+        BusinessBuildings = Resources.LoadAll<GameObject>("Buildings/Business");
+        CommercialBuildings = Resources.LoadAll<GameObject>("Buildings/Commercial");
+        ResidentialBuildings = Resources.LoadAll<GameObject>("Buildings/Residential");
+        IndustrialBuildings = Resources.LoadAll<GameObject>("Buildings/Industrial");
 
         NoiseDetailSlider.value = 0.4f;
         RandomSeedSlider.value = 0.0f;
@@ -55,6 +68,7 @@ public class CityGenerator : MonoBehaviour {
     void GenerateCity() {
         CityTileMap = new Tile[CitySize, CitySize];
         CityDistrictMap = new District[CitySize, CitySize];
+        CityHeightMap = new float[CitySize, CitySize];
 
         for (int x = 0; x < CitySize; x++) {
             for (int y = 0; y < CitySize; y++) {
@@ -111,6 +125,8 @@ public class CityGenerator : MonoBehaviour {
                 } else {
                     SetDistrict(District.Industrial, Color.white, x, y);
                 }
+
+                CityHeightMap[x, y] = MainNoise;
             }
         }
 
@@ -203,7 +219,28 @@ public class CityGenerator : MonoBehaviour {
         float part = 1.0f / (float)(CitySize * CitySize);
         for (int x = 0; x < CitySize; x++) {
             for (int y = 0; y < CitySize; y++) {
-                CityTileMap[x, y].Build(CityDistrictMap[x, y], 0, CityDistrictMap[x, Mathf.Max(y - 1, 0)], CityDistrictMap[x, Mathf.Min(y + 1, CitySize - 1)], CityDistrictMap[Mathf.Max(x - 1, 0), y], CityDistrictMap[Mathf.Min(x + 1, CitySize - 1), y]);
+                GameObject prefab;
+                switch (CityDistrictMap[x, y]) {
+                    case (CityGenerator.District.Business):
+                        prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
+                        break;
+                    case (CityGenerator.District.Commercial):
+                        prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length)];
+                        break;
+                    case (CityGenerator.District.Residential):
+                        prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length)];
+                        break;
+                        /*
+                    case (CityGenerator.District.Industrial):
+                        prefab = IndustrialBuildings[Random.Range(0, IndustrialBuildings.Length - 1)];
+                        break;
+                        */
+                    default:
+                        prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
+                        break;
+                }
+
+                CityTileMap[x, y].Build(CityDistrictMap[x, y], prefab, CityDistrictMap[x, Mathf.Max(y - 1, 0)], CityDistrictMap[x, Mathf.Min(y + 1, CitySize - 1)], CityDistrictMap[Mathf.Max(x - 1, 0), y], CityDistrictMap[Mathf.Min(x + 1, CitySize - 1), y]);
                 SetTileColor(Color.white, x, y);
             }
         }

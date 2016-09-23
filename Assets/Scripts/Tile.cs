@@ -10,38 +10,12 @@ public class Tile : MonoBehaviour {
     public GameObject[] RoadTCrossings;
     public GameObject[] RoadXCrossings;
 
-    public GameObject[] BusinessBuildings;
-    public GameObject[] CommercialBuildings;
-    public GameObject[] ResidentialBuildings;
-    public GameObject[] IndustrialBuildings;
-
-    public void Build(CityGenerator.District district, float height, CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
+    public void Build(CityGenerator.District district, GameObject prefab, CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
         Destroy(TileMesh);
         if (district == CityGenerator.District.Road) {
             InstantiateRoad(up, down, left, right);
         } else {
             Quaternion rotation = GetBuildingRotation(up, down, left, right);
-            GameObject prefab;
-
-            switch (district) {
-                case (CityGenerator.District.Business):
-                    prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
-                    break;
-                case (CityGenerator.District.Commercial):
-                    prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length)];
-                    break;
-                case (CityGenerator.District.Residential):
-                    prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length)];
-                    break;
-                /*
-            case (CityGenerator.District.Industrial):
-                prefab = IndustrialBuildings[Random.Range(0, IndustrialBuildings.Length - 1)];
-                break;
-                */
-                default:
-                    prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
-                    break;
-            }
             GameObject building = Instantiate(prefab, transform.localPosition, rotation) as GameObject;
             building.transform.SetParent(transform);
         }
