@@ -1385,6 +1385,22 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 502248290}
+--- !u!1 &540134409 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 188670, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
+  m_PrefabInternal: {fileID: 604950085}
+--- !u!114 &540134411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540134409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6cf326d416bbf4793e910b723dfbda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DistanceBetweenRoads: 2
 --- !u!1001 &604950085
 Prefab:
   m_ObjectHideFlags: 0
@@ -1477,6 +1493,10 @@ Prefab:
       propertyPath: VerticalRoadsSlider
       value: 
       objectReference: {fileID: 1481491324}
+    - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
+      propertyPath: CitySize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
   m_IsPrefabParent: 0

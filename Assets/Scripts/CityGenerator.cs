@@ -31,7 +31,9 @@ public class CityGenerator : MonoBehaviour {
     int xPos = -9999;
     int yPos = -9999;
 
-    int CitySize = 100;
+    public int CitySize = 100;
+
+    RoadGenerator roadGenerator;
 
 	Tile[,] CityTileMap;
 
@@ -41,6 +43,7 @@ public class CityGenerator : MonoBehaviour {
     float NoiseDetailY = 10;
 
     void Start() {
+        roadGenerator = GetComponent<RoadGenerator>();
         GenerateCity();
 
         NoiseDetailSlider.value = 0.4f;
@@ -115,9 +118,10 @@ public class CityGenerator : MonoBehaviour {
             }
         }
 
-        GenerateVerticalRoads();
-        GenerateHorizontalRoads();
+        //GenerateVerticalRoads();
+        //GenerateHorizontalRoads();
         //Debug.Log(noiseLow + " -> " + noiseHigh);
+        roadGenerator.Init();
     }
 
     void GenerateVerticalRoads() {
@@ -155,6 +159,7 @@ public class CityGenerator : MonoBehaviour {
                         lastStep = randomStep;
                         break;
                 }
+               
 
             } while (roadYPos < CitySize);
         }
@@ -210,7 +215,7 @@ public class CityGenerator : MonoBehaviour {
         }
     }
 
-    void SetDistrict(District district, Color color, int x, int y) {
+    public void SetDistrict(District district, Color color, int x, int y) {
         SetTileColor(color, x, y);
         CityDistrictMap[x, y] = district;
     }
