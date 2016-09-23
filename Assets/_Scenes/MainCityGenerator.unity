@@ -1455,8 +1455,7 @@ Prefab:
     - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
       propertyPath: TilePrefab
       value: 
-      objectReference: {fileID: 11405832, guid: 143cf4cccf405014aaf3c554eaa79109,
-        type: 2}
+      objectReference: {fileID: 116262, guid: 143cf4cccf405014aaf3c554eaa79109, type: 2}
     - target: {fileID: 11401946, guid: b8f3e65774fea4f888f26f91b5c6153e, type: 2}
       propertyPath: ProgressBar
       value: 

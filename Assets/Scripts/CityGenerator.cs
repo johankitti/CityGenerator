@@ -9,12 +9,20 @@ public class CityGenerator : MonoBehaviour {
         Business, Commercial, Residential, Industrial, Road
     }
 
-    public Transform CameraView2DPos;
-    public Tile TilePrefab;
-    public GameObject BaseConcrete;
-	public GameObject[] Buildings;
-
+    public GameObject TilePrefab;
     public Agent AgentPrefab;
+
+    // Buildings
+    GameObject[] BusinessBuildings;
+    GameObject[] CommercialBuildings;
+    GameObject[] ResidentialBuildings;
+    GameObject[] IndustrialBuildings;
+
+    // Roads
+    GameObject[] Roads;
+    GameObject[] TurnRoads;
+    GameObject[] TCrossRoads;
+    GameObject[] XCrossRoads;
 
     // UI
     public Slider NoiseDetailSlider;
@@ -26,21 +34,15 @@ public class CityGenerator : MonoBehaviour {
     public Slider VerticalRoadsSlider;
     public Slider HorizontalRoadsSlider;
 
-    // Buildings
-    GameObject[] BusinessBuildings;
-    GameObject[] CommercialBuildings;
-    GameObject[] ResidentialBuildings;
-    GameObject[] IndustrialBuildings;
-
     const int TileSize = 30;
     const int TilePadding = 5;
 
     int xPos = -9999;
     int yPos = -9999;
 
-    int CitySize = 30;
+    int CitySize = 100;
 
-	Tile[,] CityTileMap;
+	GameObject[,] CityTileMap;
     District[,] CityDistrictMap;
     float[,] CityHeightMap;
 
@@ -55,6 +57,13 @@ public class CityGenerator : MonoBehaviour {
         ResidentialBuildings = Resources.LoadAll<GameObject>("Buildings/Residential");
         IndustrialBuildings = Resources.LoadAll<GameObject>("Buildings/Industrial");
 
+        Roads = Resources.LoadAll<GameObject>("Road/Roads");
+        TurnRoads = Resources.LoadAll<GameObject>("Road/TurnRoads");
+        TCrossRoads = Resources.LoadAll<GameObject>("Road/TCrossRoads");
+        XCrossRoads = Resources.LoadAll<GameObject>("Road/XCrossRoads");
+
+        Debug.Log(Roads.Length);
+
         NoiseDetailSlider.value = 0.4f;
         RandomSeedSlider.value = 0.0f;
         BusinessCommercialSlider.value = 0.4f;
@@ -66,7 +75,7 @@ public class CityGenerator : MonoBehaviour {
     }
 
     void GenerateCity() {
-        CityTileMap = new Tile[CitySize, CitySize];
+        CityTileMap = new GameObject[CitySize, CitySize];
         CityDistrictMap = new District[CitySize, CitySize];
         CityHeightMap = new float[CitySize, CitySize];
 
@@ -77,7 +86,7 @@ public class CityGenerator : MonoBehaviour {
 
                 Vector3 basicTilePos = new Vector3(instPosX, 0, instPosY);
 
-                CityTileMap[x, y] = Instantiate(TilePrefab, Vector3.zero + basicTilePos, Quaternion.identity) as Tile;
+                CityTileMap[x, y] = Instantiate(TilePrefab, Vector3.zero + basicTilePos, Quaternion.identity) as GameObject;
                 CityTileMap[x, y].name = "Tile[" + x + ", " + y + "]";
             }
         }
@@ -176,7 +185,7 @@ public class CityGenerator : MonoBehaviour {
     }
 
     void GenerateHorizontalRoads() {
-        int nrOfRoads = (int)(VerticalRoadsSlider.value * (float)CitySize / 2.0f);
+        int nrOfRoads = (int)(HorizontalRoadsSlider.value * (float)CitySize / 2.0f);
         for (int i = 0; i < nrOfRoads; i++) {
             int roadXPos = 0;
             int roadYPos = Random.Range(0, CitySize);
@@ -220,32 +229,125 @@ public class CityGenerator : MonoBehaviour {
         for (int x = 0; x < CitySize; x++) {
             for (int y = 0; y < CitySize; y++) {
                 GameObject prefab;
-                switch (CityDistrictMap[x, y]) {
-                    case (CityGenerator.District.Business):
-                        prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
-                        break;
-                    case (CityGenerator.District.Commercial):
-                        prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length)];
-                        break;
-                    case (CityGenerator.District.Residential):
-                        prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length)];
-                        break;
+
+                District up = CityDistrictMap[x, Mathf.Max(y - 1, 0)];
+                District down = CityDistrictMap[x, Mathf.Min(y + 1, CitySize - 1)];
+                District left = CityDistrictMap[Mathf.Max(x - 1, 0), y];
+                District right = CityDistrictMap[Mathf.Min(x + 1, CitySize - 1), y];
+
+                Destroy(CityTileMap[x, y]);
+                if (CityDistrictMap[x, y] == CityGenerator.District.Road) {
+                    InstantiateRoad(up, down, left, right, x, y);
+                }
+                else {
+                    switch (CityDistrictMap[x, y]) {
+                        case (CityGenerator.District.Business):
+                            prefab = BusinessBuildings[Random.Range(0, BusinessBuildings.Length)];
+                            break;
+                        case (CityGenerator.District.Commercial):
+                            prefab = CommercialBuildings[Random.Range(0, CommercialBuildings.Length)];
+                            break;
+                        case (CityGenerator.District.Residential):
+                            prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length)];
+                            break;
                         /*
                     case (CityGenerator.District.Industrial):
                         prefab = IndustrialBuildings[Random.Range(0, IndustrialBuildings.Length - 1)];
                         break;
                         */
-                    default:
-                        prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
-                        break;
-                }
+                        default:
+                            prefab = ResidentialBuildings[Random.Range(0, ResidentialBuildings.Length - 1)];
+                            break;
+                    }
 
-                CityTileMap[x, y].Build(CityDistrictMap[x, y], prefab, CityDistrictMap[x, Mathf.Max(y - 1, 0)], CityDistrictMap[x, Mathf.Min(y + 1, CitySize - 1)], CityDistrictMap[Mathf.Max(x - 1, 0), y], CityDistrictMap[Mathf.Min(x + 1, CitySize - 1), y]);
-                SetTileColor(Color.white, x, y);
+                    Quaternion rotation = GetBuildingRotation(up, down, left, right);
+                    GameObject building = Instantiate(prefab, new Vector3(x * TileSize, 0 , y * TileSize), rotation) as GameObject;
+                    building.transform.SetParent(transform);
+
+                    SetTileColor(Color.white, x, y);
+                }
             }
         }
 
         SpawnAgents();
+    }
+
+    Quaternion GetBuildingRotation(CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right) {
+        if (up == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 3, 0));
+        }
+        else if (right == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 2, 0));
+        }
+        else if (down == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 1, 0));
+        }
+        else if (left == CityGenerator.District.Road) {
+            return Quaternion.Euler(new Vector3(0, 90 * 4, 0));
+        }
+        else {
+            return Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0));
+        }
+    }
+
+    void InstantiateRoad(CityGenerator.District up, CityGenerator.District down, CityGenerator.District left, CityGenerator.District right, int x, int y) {
+        GameObject prefab = Roads[0];
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 90 * 1, 0));
+
+        // X-CROSSING
+        if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
+            rotation = Quaternion.identity;
+            prefab = XCrossRoads[Random.Range(0, XCrossRoads.Length)];
+        }
+
+        // T-CROSSING
+        else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && left == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            prefab = TCrossRoads[Random.Range(0, TCrossRoads.Length)];
+        }
+        else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road && right == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 2, 0));
+            prefab = TCrossRoads[Random.Range(0, TCrossRoads.Length)];
+        }
+        else if (up == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 3, 0));
+            prefab = TCrossRoads[Random.Range(0, TCrossRoads.Length)];
+        }
+        else if (down == CityGenerator.District.Road && left == CityGenerator.District.Road && right == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 1, 0));
+            prefab = TCrossRoads[Random.Range(0, TCrossRoads.Length)];
+        }
+
+        // TURN
+        else if (up == CityGenerator.District.Road && right == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            prefab = TurnRoads[Random.Range(0, TurnRoads.Length)];
+        }
+        else if (up == CityGenerator.District.Road && left == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+            prefab = TurnRoads[Random.Range(0, TurnRoads.Length)];
+        }
+        else if (right == CityGenerator.District.Road && down == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 3, 0));
+            prefab = TurnRoads[Random.Range(0, TurnRoads.Length)];
+        }
+        else if (down == CityGenerator.District.Road && left == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 6, 0));
+            prefab = TurnRoads[Random.Range(0, TurnRoads.Length)];
+        }
+
+        // NORMAL ROAD
+        else if (right == CityGenerator.District.Road && left == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 90 * 5, 0));
+            prefab = Roads[Random.Range(0, Roads.Length)];
+        }
+        else if (up == CityGenerator.District.Road && down == CityGenerator.District.Road) {
+            rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            prefab = Roads[Random.Range(0, Roads.Length)];
+        }
+
+        GameObject building = Instantiate(prefab, new Vector3(x * TileSize, 0, y * TileSize), rotation) as GameObject;
+        building.transform.SetParent(transform);
     }
 
     void SetDistrict(District district, Color color, int x, int y) {
@@ -271,53 +373,4 @@ public class CityGenerator : MonoBehaviour {
             agent.Initialize(CityDistrictMap, CitySize, TileSize, randomX, randomY);
         }
     }
-
-    /*
-        void Update() {
-            int newXPos = (int)(CameraView2DPos.position.x / (float)TileSize + 0.5f);
-            int newYPos = (int)(CameraView2DPos.position.z / (float)TileSize + 0.5f);
-
-            // If position changed, generate new tiles
-            if (newXPos != xPos || newYPos != yPos) {
-                Debug.Log("NEW POS: [" + newXPos + ", " + newYPos + "]");
-
-                xPos = newXPos;
-                yPos = newYPos;
-
-                UpdateTileArea(xPos - TilePadding, xPos + TilePadding, yPos - TilePadding, yPos + TilePadding);
-            }
-        }
-
-
-        void UpdateTileArea(int startTileX, int endTileX, int startTileY, int endTileY) {
-            startTileX = (int)Mathf.Max(0, startTileX);
-            endTileX = (endTileX > CitySize) ? CitySize : endTileX;
-
-            startTileY = (int)Mathf.Max(0, startTileY);
-            endTileY = (endTileY > CitySize) ? CitySize : endTileY;
-
-            Debug.Log("X: " + startTileX + " -> " + endTileX);
-            Debug.Log("Y: " + startTileY + " -> " + endTileY);
-
-            for (int x = startTileX; x < endTileX + 1; x++) {
-                for (int y = startTileY; y < endTileY + 1; y++) {
-                    if (x == startTileX || x == endTileX || y == startTileY || y == endTileY)
-                        ChangeTile(false, x, y);
-                    else
-                        ChangeTile(true, x, y);
-                }
-            }
-        }
-
-        void ChangeTile(bool spawn, int x, int y) {
-            if (spawn) {
-                if (!CityTileMap[x, y].isActiveAndEnabled) {
-                    CityTileMap[x, y].gameObject.SetActive(true);
-                    CityTileMap[x, y].Activate(50, 100);
-                }
-            } else {
-                CityTileMap[x, y].gameObject.SetActive(false);
-            }
-        }
-        */
 }
