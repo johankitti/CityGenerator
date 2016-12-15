@@ -51,7 +51,7 @@ public class CityGenerator : MonoBehaviour {
         ResidentialSlider.value = 0.9f;
         IndustrialSlider.value = 0.6f;
         SpreadCommercialSlider.value = 0.25f;
-        MaxRoadLengthSlider.value = 0.05f;
+        MaxRoadLengthSlider.value = 5;
     }
 
     void GenerateCity() {
