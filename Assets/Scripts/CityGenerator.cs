@@ -21,7 +21,6 @@ public class CityGenerator : MonoBehaviour {
     public Slider IndustrialSlider;
     public Slider SpreadCommercialSlider;
 	public Slider MaxRoadLengthSlider;
-    public Slider HorizontalRoadsSlider;
 
     const int TileSize = 30;
     const int BasicBlockHeight = 10;
@@ -53,9 +52,6 @@ public class CityGenerator : MonoBehaviour {
         IndustrialSlider.value = 0.6f;
         SpreadCommercialSlider.value = 0.25f;
         MaxRoadLengthSlider.value = 0.05f;
-        //HorizontalRoadsSlider.value = 0.07f;
-		//roadGenerator.Init();
-
     }
 
     void GenerateCity() {
@@ -119,91 +115,7 @@ public class CityGenerator : MonoBehaviour {
             }
         }
 		roadGenerator.Init((int)MaxRoadLengthSlider.value);
-        //GenerateVerticalRoads();
-        //GenerateHorizontalRoads();
-        //Debug.Log(noiseLow + " -> " + noiseHigh);
     }
-
-//    void GenerateVerticalRoads() {
-//        int nrOfRoads = (int)(VerticalRoadsSlider.value * (float)CitySize / 2.0f);
-//        for (int i = 0; i < nrOfRoads; i++) {
-//            int roadXPos = Random.Range(0, CitySize);
-//            int roadYPos = 0;
-//            int lastStep = -1;
-//
-//            do {
-//                SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
-//                int randomStep = Random.Range(0, 3);
-//                switch (randomStep) {
-//                    case (0):
-//                        if (lastStep != 1) { 
-//                            roadXPos++;
-//                            lastStep = randomStep;
-//                        }
-//                        if (roadXPos > CitySize - 1)
-//                            roadXPos = CitySize - 1;
-//                        break;
-//   
-//                    case (1):
-//                        if (lastStep != 0) {
-//                            roadXPos--;
-//                            lastStep = randomStep;
-//                        }
-//                        if (roadXPos < 0)
-//                            roadXPos = 0;
-//                        break;
-//                    default:
-//                        roadYPos++;
-//                        SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
-//                        roadYPos++;
-//                        lastStep = randomStep;
-//                        break;
-//                }
-//               
-//
-//            } while (roadYPos < CitySize);
-//        }
-//    }
-//
-//    void GenerateHorizontalRoads() {
-//        int nrOfRoads = (int)(VerticalRoadsSlider.value * (float)CitySize / 2.0f);
-//        for (int i = 0; i < nrOfRoads; i++) {
-//            int roadXPos = 0;
-//            int roadYPos = Random.Range(0, CitySize);
-//            int lastStep = -1;
-//
-//            do {
-//                SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
-//                int randomStep = Random.Range(0, 3);
-//                switch (randomStep) {
-//                    case (0):
-//                        if (lastStep != 1) {
-//                            roadYPos++;
-//                            lastStep = randomStep;
-//                        }
-//                        if (roadYPos > CitySize - 1)
-//                            roadYPos = CitySize - 1;
-//                        break;
-//
-//                    case (1):
-//                        if (lastStep != 0) {
-//                            roadYPos--;
-//                            lastStep = randomStep;
-//                        }
-//                        if (roadYPos < 0)
-//                            roadYPos = 0;
-//                        break;
-//                    default:
-//                        roadXPos++;
-//                        SetDistrict(District.Road, Color.black, roadXPos, roadYPos);
-//                        roadXPos++;
-//                        lastStep = randomStep;
-//                        break;
-//                }
-//
-//            } while (roadXPos < CitySize);
-//        }
-//    }
 
     public void BuildCity() {
         float part = 1.0f / (float)(CitySize * CitySize);
@@ -224,53 +136,4 @@ public class CityGenerator : MonoBehaviour {
         if (CityTileMap[x, y] != null)
             CityTileMap[x, y].GetComponentInChildren<Renderer>().material.color = color;
     }
-
-    /*
-        void Update() {
-            int newXPos = (int)(CameraView2DPos.position.x / (float)TileSize + 0.5f);
-            int newYPos = (int)(CameraView2DPos.position.z / (float)TileSize + 0.5f);
-
-            // If position changed, generate new tiles
-            if (newXPos != xPos || newYPos != yPos) {
-                Debug.Log("NEW POS: [" + newXPos + ", " + newYPos + "]");
-
-                xPos = newXPos;
-                yPos = newYPos;
-
-                UpdateTileArea(xPos - TilePadding, xPos + TilePadding, yPos - TilePadding, yPos + TilePadding);
-            }
-        }
-
-
-        void UpdateTileArea(int startTileX, int endTileX, int startTileY, int endTileY) {
-            startTileX = (int)Mathf.Max(0, startTileX);
-            endTileX = (endTileX > CitySize) ? CitySize : endTileX;
-
-            startTileY = (int)Mathf.Max(0, startTileY);
-            endTileY = (endTileY > CitySize) ? CitySize : endTileY;
-
-            Debug.Log("X: " + startTileX + " -> " + endTileX);
-            Debug.Log("Y: " + startTileY + " -> " + endTileY);
-
-            for (int x = startTileX; x < endTileX + 1; x++) {
-                for (int y = startTileY; y < endTileY + 1; y++) {
-                    if (x == startTileX || x == endTileX || y == startTileY || y == endTileY)
-                        ChangeTile(false, x, y);
-                    else
-                        ChangeTile(true, x, y);
-                }
-            }
-        }
-
-        void ChangeTile(bool spawn, int x, int y) {
-            if (spawn) {
-                if (!CityTileMap[x, y].isActiveAndEnabled) {
-                    CityTileMap[x, y].gameObject.SetActive(true);
-                    CityTileMap[x, y].Activate(50, 100);
-                }
-            } else {
-                CityTileMap[x, y].gameObject.SetActive(false);
-            }
-        }
-        */
 }
