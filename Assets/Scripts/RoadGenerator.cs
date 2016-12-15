@@ -11,7 +11,7 @@ public class RoadGenerator : MonoBehaviour {
     Direction[,] city;
     CityGenerator cityGenerator;
     List<Road> queue;
-
+	int MaxRoadLength;
 
     enum RoadType { Highway, Regular };
     enum Direction { North = 1, East = 2, South = 3, West = 4 };
@@ -49,11 +49,12 @@ public class RoadGenerator : MonoBehaviour {
     {
         queue = new List<Road>();
         cityGenerator = GetComponent<CityGenerator>();
-        city = new Direction[cityGenerator.CitySize, cityGenerator.CitySize];
     }
 
 	
-	public void Init () {
+	public void Init (int maxRoadLen = 60) {
+		MaxRoadLength = maxRoadLen;
+		city = new Direction[cityGenerator.CitySize, cityGenerator.CitySize];
         queue.Add(GetStartRoad());
         while(queue.Count > 0)
         {
@@ -66,10 +67,11 @@ public class RoadGenerator : MonoBehaviour {
 
     Road GetStartRoad()
     {
+		Debug.Log(MaxRoadLength);
         int length = Random.Range(40, 60), pos = Random.Range(0, cityGenerator.CitySize - 1);
         int[] start = new int[2], end = new int[2];
         Direction dir = (Direction)Random.Range(1, 5);
-		Debug.Log(dir);
+		//Debug.Log(dir);
         switch (dir)
         {
             case (Direction.North):
@@ -207,7 +209,7 @@ public class RoadGenerator : MonoBehaviour {
     }
 
 	RoadShape generateRoadShape(Direction dir, int[] startPos) {
-		int length = Random.Range(3, 10);
+		int length = Random.Range(3, MaxRoadLength);
 		//int length = 1;
 		int[] start = new int[2], end = new int[2];
 		switch ((Direction)dir)
