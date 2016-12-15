@@ -45,7 +45,7 @@ public class RoadGenerator : MonoBehaviour {
         }
     }
 
-    void Start()
+    void Awake()
     {
         queue = new List<Road>();
         cityGenerator = GetComponent<CityGenerator>();
@@ -60,16 +60,16 @@ public class RoadGenerator : MonoBehaviour {
             int min = queue.Min(entry => entry.prio);
             Road nextRoad = queue.First(r => r.prio == min);
             queue.Remove(nextRoad);
-            InsertRoad(nextRoad);
+			LocalConstraints(nextRoad);
         }
     }
 
     Road GetStartRoad()
     {
-        int length = Random.Range(3, 10), pos = Random.Range(0, cityGenerator.CitySize - 1);
+        int length = Random.Range(40, 60), pos = Random.Range(0, cityGenerator.CitySize - 1);
         int[] start = new int[2], end = new int[2];
         Direction dir = (Direction)Random.Range(1, 5);
-        Debug.Log(dir);
+		Debug.Log(dir);
         switch (dir)
         {
             case (Direction.North):
@@ -102,16 +102,12 @@ public class RoadGenerator : MonoBehaviour {
         }
         RoadShape rs = new RoadShape(start, end, dir, length);
         Road r = new Road(0, rs, RoadType.Highway);
-        InsertRoad(r);
+		LocalConstraints(r);
         return r;
     }
-	
-    bool LocalConstraints(Road road)
-    {
-        return true;
-    }
 
-    bool InsertRoad(Road r)
+
+	bool LocalConstraints(Road r)
     {
         RoadShape rs = r.shape;
         if (rs.direction == Direction.North || rs.direction == Direction.South)
@@ -127,14 +123,14 @@ public class RoadGenerator : MonoBehaviour {
             {
                 if (0 > y || y > cityGenerator.CitySize - 1)
                     return false;
-                if (city[rs.start[1], y] != 0)
+                if (city[rs.start[0], y] != 0)
                     return false;
 
                 for (int xOffset = -DistanceBetweenRoads; xOffset < DistanceBetweenRoads + 1; xOffset++)
                 {
-                    if (0 < rs.start[1] + xOffset && rs.start[1] + xOffset < cityGenerator.CitySize)
+                    if (0 < rs.start[0] + xOffset && rs.start[0] + xOffset < cityGenerator.CitySize)
                     {
-                        if (city[rs.start[1] + xOffset, y] == Direction.North || city[rs.start[1] + xOffset, y] == Direction.South)
+                        if (city[rs.start[0] + xOffset, y] == Direction.North || city[rs.start[0] + xOffset, y] == Direction.South)
                         {
                             return false;
                         }
@@ -142,10 +138,11 @@ public class RoadGenerator : MonoBehaviour {
                    
                 }
                 cityGenerator.SetDistrict(CityGenerator.District.Road, Color.black, rs.start[0], y);
+				//Debug.Log(cityGenerator.CityDistrictMap[rs.start[0], y]);
                 city[rs.start[0], y] = rs.direction;
             }
         }
-        else
+		else
         {
             int from = rs.start[0];
             int to = from + rs.length;
@@ -173,6 +170,8 @@ public class RoadGenerator : MonoBehaviour {
                     
                 }
                 cityGenerator.SetDistrict(CityGenerator.District.Road, Color.black,x, rs.start[1]);
+				//Debug.Log(cityGenerator.CityDistrictMap[x, rs.start[1]]);
+
                 city[x, rs.start[1]] = rs.direction;
             }
         }
@@ -183,70 +182,139 @@ public class RoadGenerator : MonoBehaviour {
     void GlobalGoals(Road r)
     {
         RoadShape rs = r.shape;
-        for(int dir=1;dir<5;dir++)
-        {
-            if((Direction)dir != oppositeDirection(rs.direction))
-            {
-                int length = Random.Range(3, 10);
-                int[] start = new int[2], end = new int[2];
-                switch ((Direction)dir)
-                {
-                    case (Direction.North):
-                        start[0] = rs.end[0];
-                        start[1] = rs.end[1] + 1;
-                        end[0] = rs.end[0];
-                        end[1] = rs.end[1] + 1 + length;
-                        break;
+		int randomDistribution = Random.Range(1, 11);
 
-                    case (Direction.East):
-                        start[0] = rs.end[0] + 1;
-                        start[1] = rs.end[1];
-                        end[0] = rs.end[0] + 1 + length;
-                        end[1] = rs.end[1];
-                        break;
+		// 30% chance 
 
-                    case (Direction.South):
-                        start[0] = rs.end[0];
-                        start[1] = rs.end[1] - 1;
-                        end[0] = rs.end[0];
-                        end[1] = rs.end[1] - 1 - length;
-                        break;
-
-                    case (Direction.West):
-                        start[0] = rs.end[0] - 1;
-                        start[1] = rs.end[1];
-                        end[0] = rs.end[0] - 1 - length;
-                        end[1] = rs.end[1];
-                        break;
-                }
-                RoadShape suggestedShape = new RoadShape(start, end, (Direction)dir, length);
-                Road suggestedRoad = new Road(r.prio * 4 + dir, suggestedShape, RoadType.Regular);
-                queue.Add(suggestedRoad);
-            }
-        }        
+		if(randomDistribution <= 3 || randomDistribution == 4 || randomDistribution == 9) {
+			// Left road
+			RoadShape leftShape = generateRoadShape(LeftDirection(rs.direction), rs.end);
+			Road leftRoad = new Road(r.prio * 4, leftShape, RoadType.Regular);
+			queue.Add(leftRoad);
+		}
+		if(randomDistribution <= 3 || randomDistribution == 5 || randomDistribution == 10) {
+			// Right road
+			RoadShape rightShape = generateRoadShape(RightDirection(rs.direction), rs.end);
+			Road rightRoad = new Road(r.prio * 4, rightShape, RoadType.Regular);
+			queue.Add(rightRoad);
+		}
+		if(randomDistribution <= 8) {
+			// Forward road
+			RoadShape forwardShape = generateRoadShape(rs.direction, rs.end);
+			Road forwardRoad = new Road(r.prio * 4, forwardShape, RoadType.Regular);
+			queue.Add(forwardRoad);
+		}
     }
 
-    Direction oppositeDirection(Direction dir)
-    {
-        Direction oppositeDir = dir;
-        switch (dir)
-        {
-            case (Direction.North):
-                oppositeDir = Direction.South;
-                break;
+	RoadShape generateRoadShape(Direction dir, int[] startPos) {
+		int length = Random.Range(3, 10);
+		//int length = 1;
+		int[] start = new int[2], end = new int[2];
+		switch ((Direction)dir)
+		{
+		case (Direction.North):
+			start[0] = startPos[0];
+			start[1] = startPos[1] + 1;
+			end[0] = startPos[0];
+			end[1] = startPos[1] + 1 + length;
+			break;
 
-            case (Direction.East):
-                oppositeDir = Direction.West;
-                break;
+		case (Direction.East):
+			start[0] = startPos[0] + 1;
+			start[1] = startPos[1];
+			end[0] = startPos[0] + 1 + length;
+			end[1] = startPos[1];
+			break;
 
-            case (Direction.South):
-                oppositeDir = Direction.North;
-                break;
+		case (Direction.South):
+			start[0] = startPos[0];
+			start[1] = startPos[1] - 1;
+			end[0] = startPos[0];
+			end[1] = startPos[1] - 1 - length;
+			break;
 
-            case (Direction.West):
-                oppositeDir = Direction.East;
-                break;
-        }
-        return oppositeDir;
-    }
+		case (Direction.West):
+			start[0] = startPos[0] - 1;
+			start[1] = startPos[1];
+			end[0] = startPos[0] - 1 - length;
+			end[1] = startPos[1];
+			break;
+		}
+		RoadShape suggestedShape = new RoadShape(start, end, (Direction)dir, length);
+		return suggestedShape;
+	}
+
+
+
+	Direction oppositeDirection(Direction dir)
+	{
+		Direction oppositeDir = dir;
+		switch (dir)
+		{
+		case (Direction.North):
+			oppositeDir = Direction.South;
+			break;
+
+		case (Direction.East):
+			oppositeDir = Direction.West;
+			break;
+
+		case (Direction.South):
+			oppositeDir = Direction.North;
+			break;
+
+		case (Direction.West):
+			oppositeDir = Direction.East;
+			break;
+		}
+		return oppositeDir;
+	}
+
+	Direction LeftDirection(Direction dir)
+	{
+		Direction leftDir = dir;
+		switch (dir)
+		{
+		case (Direction.North):
+			leftDir = Direction.West;
+			break;
+
+		case (Direction.East):
+			leftDir = Direction.North;
+			break;
+
+		case (Direction.South):
+			leftDir = Direction.East;
+			break;
+
+		case (Direction.West):
+			leftDir = Direction.South;
+			break;
+		}
+		return leftDir;
+	}
+
+	Direction RightDirection(Direction dir)
+	{
+		Direction rightDirection = dir;
+		switch (dir)
+		{
+		case (Direction.North):
+			rightDirection = Direction.East;
+			break;
+
+		case (Direction.East):
+			rightDirection = Direction.South;
+			break;
+
+		case (Direction.South):
+			rightDirection = Direction.West;
+			break;
+
+		case (Direction.West):
+			rightDirection = Direction.North;
+			break;
+		}
+		return rightDirection;
+	}
 }

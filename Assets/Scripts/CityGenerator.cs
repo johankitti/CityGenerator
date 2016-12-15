@@ -37,7 +37,7 @@ public class CityGenerator : MonoBehaviour {
 
 	Tile[,] CityTileMap;
 
-    District[,] CityDistrictMap;
+    public District[,] CityDistrictMap;
 
     float NoiseDetailX = 10;
     float NoiseDetailY = 10;
@@ -54,12 +54,13 @@ public class CityGenerator : MonoBehaviour {
         SpreadCommercialSlider.value = 0.25f;
         VerticalRoadsSlider.value = 0.05f;
         HorizontalRoadsSlider.value = 0.07f;
+		roadGenerator.Init();
+
     }
 
     void GenerateCity() {
         CityTileMap = new Tile[CitySize, CitySize];
         CityDistrictMap = new District[CitySize, CitySize];
-
         for (int x = 0; x < CitySize; x++) {
             for (int y = 0; y < CitySize; y++) {
                 float instPosX = x * TileSize;
@@ -117,11 +118,9 @@ public class CityGenerator : MonoBehaviour {
                 }
             }
         }
-
         //GenerateVerticalRoads();
         //GenerateHorizontalRoads();
         //Debug.Log(noiseLow + " -> " + noiseHigh);
-        roadGenerator.Init();
     }
 
     void GenerateVerticalRoads() {
